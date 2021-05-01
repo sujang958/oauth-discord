@@ -18,10 +18,10 @@ declare module 'oauth-discord' {
 
     export interface Token {
         access_token: string;
-        token_type: string;
         expires_in: number;
         refresh_token: string;
-        scope: string;
+        scope: array;
+        token_type: string;
     }
 
     export interface User {

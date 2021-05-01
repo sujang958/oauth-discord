@@ -37,6 +37,7 @@ class Oauth {
             body,
         });
         let res = await token_res.json();
+        res.scope = res.scope.join(' ');
         return res;
     }
 

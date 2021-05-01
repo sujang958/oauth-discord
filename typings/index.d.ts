@@ -20,7 +20,7 @@ declare module 'oauth-discord' {
         access_token: string;
         expires_in: number;
         refresh_token: string;
-        scope: array;
+        scope: string;
         token_type: string;
     }
 

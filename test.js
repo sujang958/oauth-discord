@@ -9,4 +9,6 @@ const oauth = new DiscordOauth({
 oauth.getToken({
     grant_type: 'refresh_token',
     refresh_token: refresh_token,
-})
+}).then(token => {
+    
+});

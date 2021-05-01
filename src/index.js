@@ -4,12 +4,12 @@ const { default: fetch } = require("node-fetch");
 
 class Oauth {
     constructor(option={
-        version: 'v8',
+        version: undefined,
         client_secret: undefined,
         client_id: undefined,
         redirect_uri: undefined,
     }) {
-        this.version = option.version;
+        this.version = option.version || 'v8';
         this.client_id = option.client_id.toString();
         this.client_secret = option.client_secret;
         this.redirect_uri = option.redirect_uri;

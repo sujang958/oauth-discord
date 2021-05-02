@@ -10,6 +10,8 @@ $ npm i oauth-discord
 $ yarn add oauth-discord
 ```
 
+# requirements  
+> node.js version 12.0.0 or later
 
 # example
 ```js

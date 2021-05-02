@@ -24,6 +24,9 @@
     "btoa": "^1.2.1",
     "node-fetch": "^2.6.1"
   },
+  "devDependencies": {
+    "eslint": "^7.25.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sujang958/oauth-discord.git"
@@ -35,7 +38,10 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "devDependencies": {
-    "eslint": "^7.25.0"
-  }
+  "keywords": [
+    "discord",
+    "oauth",
+    "oauth2",
+    "discord oauth"
+  ]
 }

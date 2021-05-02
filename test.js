@@ -18,8 +18,6 @@ app.get('/callback', async (req, res) => {
     });
     console.log(token);
     console.log(await oauth.revokeToken(token.access_token));
-
-    res.send('와 샌즈');
 });
 
 app.listen(3000 ,() => {

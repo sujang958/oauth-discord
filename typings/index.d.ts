@@ -56,7 +56,7 @@ declare module 'oauth-discord' {
         public user(access_token: string): Promise<User>;
         public userGuilds(access_token: string): Promise<Guild[]>;
 
-        private _urlEncode(obj: object): string;
+        private _urlEncode(e: object): string;
     }
 
     export = Oauth;

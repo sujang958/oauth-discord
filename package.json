@@ -15,6 +15,7 @@
     "./esm": "./esm/oauth.mjs"
   },
   "scripts": {
+    "test": "npm run lint",
     "lint": "eslint src"
   },
   "author": "sujang958",

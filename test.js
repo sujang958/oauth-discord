@@ -1,14 +1,27 @@
-const DiscordOauth = require('oauth-discord');
-const oauth = new DiscordOauth({
-    version: "v8",
-    client_id: '12345667',
-    client_secret: 'shhhhhhhhh cret',
-    redirect_uri: 'http://localhost:3000/callback',
+const Oauth = require('oauth-discord');
+const express = require('express');
+
+const app = express();
+const oauth = new Oauth({
+    client_id: "asdf",
+    client_secret: "6asdfO",
+    redirect_uri: "http://localhost:3000/callback",
 });
 
-oauth.getToken({
-    grant_type: 'refresh_token',
-    refresh_token: refresh_token,
-}).then(token => {
-    
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
+app.get('/callback', async (req, res) => {
+    const token = await oauth.getToken({
+        grant_type: 'authorization_code',
+        code: req.query.code,
+    });
+    console.log(token);
+    console.log(await oauth.revokeToken(token.access_token));
+
+    res.send('와 샌즈');
+});
+
+app.listen(3000 ,() => {
+    console.log('Listen');
 });

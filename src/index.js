@@ -1,5 +1,5 @@
-const btoa = require("btoa");
-const { default: fetch } = require("node-fetch");
+const btoa = require('btoa');
+const request = require('./util/request');
 
 
 class Oauth {
@@ -28,15 +28,13 @@ class Oauth {
         option.redirect_uri = this.redirect_uri;
         let body = this._urlEncode(option);
 
-        let token_res = await fetch(`https://discord.com/api/${this.version}/oauth2/token`, {
-            method: "POST",
-            headers: {
-                Authorization: `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body,
-        });
-        let res = await token_res.json();
+        let res = await request('POST', `/${this.version}/oauth2/token`, {
+            type: 'Basic',
+            creds: btoa(`${this.client_id}:${this.client_secret}`),
+        }, {
+            content_type: 'application/x-www-form-urlencoded',
+        }, body);
+
         res.scope = res.scope.split(' ')
         return res;
     }
@@ -47,15 +45,12 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async revokeToken(token) {
-        let token_res = await fetch(`https://discord.com/api/${this.version}/oauth2/token/revoke`, {
-            method: "POST",
-            headers: {
-                Authorization: `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `token=${token}`
-        });
-        let res = await token_res.json();
+        let res = await request('POST', `/${this.version}/oauth2/token/revoke`, {
+            type: 'Basic',
+            creds: btoa(`${this.client_id}:${this.client_secret}`),
+        }, {
+            content_type: 'application/x-www-form-urlencoded',
+        }, `token=${token}`);
         return res;
     }
 
@@ -65,14 +60,13 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async user(access_token) {
-        let res = await fetch(`https://discord.com/api/${this.version}/users/@me`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-                'Content-Type': 'application/json'
-            }
+        let res = await request('GET', `/${this.version}/users/@me`, {
+            type: 'Bearer',
+            creds: access_token,
+        }, {
+            content_type: 'application/json',
         });
-        let user = await res.json();
-        return user;
+        return res;
     }
 
     /**
@@ -81,25 +75,16 @@ class Oauth {
      * @returns {Promise<array>}
      */
     async userGuilds(access_token) {
-        let res = await fetch(`https://discord.com/api/${this.version}/users/@me/guilds`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-                'Content-Type': 'application/json'
-            }
+        let res = await request('GET', `/${this.version}/users/@me/guilds`, {
+            type: 'Bearer',
+            creds: access_token,
+        }, {
+            content_type: 'application/json',
         });
-        let guilds = await res.json();
-        return guilds;
+        return res;
     }
 
-    _urlEncode(obj) {
-		let string = "";
-		for (let [key, value] of Object.entries(obj)) {
-			if (!value)
-                continue;
-			string += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-		}
-		return string.substr(1);
-	}
+    _urlEncode(e){let n="";for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
 }
 
 module.exports = Oauth;

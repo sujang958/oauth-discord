@@ -1,5 +1,16 @@
 # oauth-discord
-> simple discord oauth tool  
+> simple discord oauth tool
+
+
+# Install  
+```sh
+$ npm i oauth-discord
+```  
+```sh
+$ yarn add oauth-discord
+```
+
+
 # example
 ```js
 const DiscordOauth = require('oauth-discord');

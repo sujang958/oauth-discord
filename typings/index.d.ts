@@ -303,7 +303,7 @@ declare module 'oauth-discord' {
     export = Oauth;
 
     export interface BotOption {
-        version: string;
+        version?: string;
         token: string;
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "oauth-discord",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "simple discord oauth tool",
   "main": "./src/index.js",
   "types": "./typings/index.d.ts",
@@ -15,8 +15,10 @@
     "./esm": "./esm/oauth.mjs"
   },
   "scripts": {
-    "test": "npm run lint",
-    "lint": "eslint src"
+    "test": "npm run lint && npm run lint:typings",
+    "lint": "eslint src",
+    "lint:typings": "eslint ./typings/index.d.ts",
+    "lint:fix": "eslint src --fix"
   },
   "author": "sujang958",
   "license": "MIT",
@@ -25,7 +27,10 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "eslint": "^7.25.0"
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "eslint": "^7.25.0",
+    "typescript": "^4.2.4"
   },
   "repository": {
     "type": "git",

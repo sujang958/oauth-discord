@@ -38,11 +38,11 @@ declare module 'oauth-discord' {
         system?: boolean;
         mfa_enabled?: boolean;
         locale?: string;
-        verified?: boolean;	
+        verified?: boolean;
         email?: string;
-        flags?: integer;	
+        flags?: number;
         premium_type?: PremiumType;
-        public_flags?: integer;
+        public_flags?: number;
     }
 
     export interface PartialGuild {
@@ -58,9 +58,9 @@ declare module 'oauth-discord' {
     export interface Role {
         id: string;
         name: string;
-        color: integer;
+        color: number;
         hoist: boolean;
-        position: integer;
+        position: number;
         permissions: string;
         managed: boolean;
         mentionable: boolean;
@@ -79,17 +79,17 @@ declare module 'oauth-discord' {
         roles?: string[];
         user?: User;
         require_colons?: boolean;
-        managed?: boolean;  
+        managed?: boolean;
         animated?: boolean;
         available?: boolean;
     }
-    
+
     export interface PartialVoiceState {
         guild_id?:	string;
         channel_id?: string;
-        user_id?: string
-        member?: GuildMember;	
-        session_id: string;	
+        user_id?: string;
+        member?: GuildMember;
+        session_id: string;
         deaf: boolean;
         mute: boolean;
         self_deaf: boolean;
@@ -238,7 +238,7 @@ declare module 'oauth-discord' {
         emoji_id?: string;
         emoji_name?: string;
     }
-    
+
     export interface Guild {
         id: string;
         name: string
@@ -255,8 +255,8 @@ declare module 'oauth-discord' {
         widget_enabled?: boolean;
         widget_channel_id?: string;
         verification_level: number;
-        default_message_notifications: number;	
-        explicit_content_filter: number;	
+        default_message_notifications: number;
+        explicit_content_filter: number;
         roles: Role[];
         emojis: Emoji[];
         features: string[];
@@ -292,7 +292,7 @@ declare module 'oauth-discord' {
 
     declare class Oauth {
         constructor(option: OauthOption): void;
-        
+
         public getToken(option: AccessTokenOption | RefreshTokenOption): Promise<Token>;
         public revokeToken(token: string): Promise<object>;
         public user(access_token: string): Promise<User>;

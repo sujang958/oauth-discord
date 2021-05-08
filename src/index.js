@@ -1,5 +1,5 @@
 const btoa = require('btoa');
-const request = require('./util/request');
+const request = require('./util/request.js');
 
 
 class Oauth {
@@ -35,7 +35,7 @@ class Oauth {
             'Content-Type': 'application/x-www-form-urlencoded',
         }, body);
 
-        res.scope = res.scope.split(' ')
+        res.scope = res.scope.split(' ');
         return res;
     }
 
@@ -82,7 +82,7 @@ class Oauth {
         return res;
     }
 
-    _urlEncode(e){let n="";for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
+    _urlEncode(e){let n='';for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1);}
 }
 
 module.exports = Oauth;

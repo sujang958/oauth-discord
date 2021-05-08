@@ -290,32 +290,31 @@ declare module 'oauth-discord' {
         nsfw: boolean;
     }
 
-    declare class Oauth {
-        constructor(option: OauthOption): void;
+    class Oauth {
+        constructor(option: OauthOption);
 
         public getToken(option: AccessTokenOption | RefreshTokenOption): Promise<Token>;
-        public revokeToken(token: string): Promise<object>;
-        public user(access_token: string): Promise<User>;
+        public revokeToken(token: string): Promise<any>;
+        public kuser(access_token: string): Promise<User>;
         public userGuilds(access_token: string): Promise<PartialGuild[]>;
 
-        private _urlEncode(e: object): string;
+        private _urlEncode(e: any): string;
     }
+    export = Oauth;
 
     export interface BotOption {
         version: string;
         token: string;
-    };
+    }
 
-    export declare class Bot {
-        constructor(option: BotOption): void;
+    export class Bot {
+        constructor(option: BotOption);
 
-        readonly private _token: string;
-        readonly private _version: string;
+        private readonly _token: string;
+        private readonly _version: string;
 
         public guild(guild_id: string): Promise<Guild>;
         public guildChannels(guild_id: string): Promise<Channel[]>;
         public searchGuildMember(guild_id: string, query: string, limit: number): Promise<GuildMember[]>;
     }
-
-    export = Oauth;
 }

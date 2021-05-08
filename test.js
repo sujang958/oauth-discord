@@ -18,7 +18,6 @@ app.get('/callback', async (req, res) => {
     });
     console.log(token);
     let guilds = await oauth.userGuilds(token.access_token);
-    console.log(await oauth.userGuild(token.access_token, guilds[0].id));
     console.log(await oauth.revokeToken(token.access_token));
 });
 

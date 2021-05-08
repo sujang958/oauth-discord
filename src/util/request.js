@@ -1,4 +1,4 @@
-const { default: fetch } = require("node-fetch");
+const { default: fetch } = require('node-fetch');
 const ENDPOINT = 'https://discord.com/api';
 
 
@@ -7,7 +7,7 @@ module.exports = async (method, url, auth, header={}, body) => {
         method,
         headers: header
     };
-    option.headers.Authorization = `${auth.type} ${auth.creds}`
+    option.headers.Authorization = `${auth.type} ${auth.creds}`;
     if (body)
         option.body = body;
 
@@ -15,9 +15,9 @@ module.exports = async (method, url, auth, header={}, body) => {
     let json = await res.json();
     
     if (json.error)
-        throw new Error(json.error)
+        throw new Error(json.error);
     if (json.message)
-        throw new Error(json.message)
+        throw new Error(json.message);
 
     return json;
 };

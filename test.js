@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const oauth = new Oauth({
     client_id: "asdf",
-    client_secret: "6asdfO",
+    client_secret: "asdf",
     redirect_uri: "http://localhost:3000/callback",
 });
 
@@ -17,6 +17,8 @@ app.get('/callback', async (req, res) => {
         code: req.query.code,
     });
     console.log(token);
+    let guilds = await oauth.userGuilds(token.access_token);
+    console.log(await oauth.userGuild(token.access_token, guilds[0].id));
     console.log(await oauth.revokeToken(token.access_token));
 });
 

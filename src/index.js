@@ -32,7 +32,7 @@ class Oauth {
             type: 'Basic',
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
-            content_type: 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded',
         }, body);
 
         res.scope = res.scope.split(' ')
@@ -49,7 +49,7 @@ class Oauth {
             type: 'Basic',
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
-            content_type: 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded',
         }, `token=${token}`);
         return res;
     }
@@ -64,7 +64,7 @@ class Oauth {
             type: 'Bearer',
             creds: access_token,
         }, {
-            content_type: 'application/json',
+            'Content-Type': 'application/json',
         });
         return res;
     }
@@ -78,66 +78,12 @@ class Oauth {
         let res = await request('GET', `/${this.version}/users/@me/guilds`, {
             type: 'Bearer',
             creds: access_token,
-        }, {
-            content_type: 'application/json',
         });
         return res;
     }
-
-    /**
-     * get user guild by guild id
-     * @param {string} access_token 
-     * @param {string} guild_id 
-     * @returns {Promise<object>}
-     */
-    async userGuild(access_token, guild_id) {
-        let res = await request('GET', `/${this.version}/users/@me/guilds/${guild_id}`, {
-            type: 'Bearer',
-            creds: access_token,
-        }, {
-            content_type: 'application/json',
-        });
-        return res;
-    }
-
-    /**
-     * get guild channels
-     * @param {String} access_token 
-     * @param {String} guild_id 
-     * @returns {Promise<object[]>}
-     */
-    async userGuildChannels(access_token, guild_id) {
-        let res = await request('GET', `/${this.version}/users/@me/guilds/${guild_id}/channels`, {
-            type: 'Bearer',
-            creds: access_token,
-        }, {
-            content_type: 'application/json',
-        });
-        return res;
-    }
-
-    /**
-     * search guild member
-     * @param {string} access_token 
-     * @param {string} guild_id 
-     * @param {string} query 
-     * @param {number} limit 
-     * @returns {Promise<object[]>}
-     */
-    async searchGuildMember(access_token, guild_id, query, limit=1) {
-        let res = await request('GET',
-        `/${this.version}/users/@me/guilds/${guild_id}/members/search?query=${query}&limit=${limit}`,
-        {
-            type: 'Bearer',
-            creds: access_token,
-        }, {
-            content_type: 'application/json',
-        });
-        return res;
-    }
-
 
     _urlEncode(e){let n="";for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
 }
 
 module.exports = Oauth;
+module.exports.Bot = require('./bot');

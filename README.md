@@ -13,7 +13,8 @@ $ yarn add oauth-discord
 # requirements  
 > node.js version 12.0.0 or later
 
-# example
+# example  
+### Access Token
 ```js
 const DiscordOauth = require('oauth-discord');
 const oauth = new DiscordOauth({
@@ -32,5 +33,20 @@ oauth.getToken({
 oauth.getToken({
     grant_type: 'refresh_token',
     refresh_token: refresh_token,
+})
+```
+
+### Bot api  
+```js
+const DiscordOauth = require('oauth-discord');
+const Bot = new DiscordOauth.Bot({
+    version: "v8(option)",
+    token: "your bot token",
+});
+
+// Search guild member
+Bot.searchGuildMember('guild id', 'search query', search_result_limit)
+.then(result => {
+    console.log(result);
 })
 ```

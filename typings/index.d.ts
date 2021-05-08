@@ -2,6 +2,7 @@ declare module 'oauth-discord' {
     export type ChannelTypes = 0| 1 | 2 | 3 | 4 | 5 | 6 | 10 | 11 | 12 | 13;
     export type PresenceStatus =  'idle' | 'dnd' | 'online' | 'offline';
     export type ActivityType = 0 | 1 | 2 | 3 | 4 | 5;
+    export type PremiumType = 0 | 1 | 2;
 
     export interface OauthOption {
         version?: string;
@@ -32,14 +33,16 @@ declare module 'oauth-discord' {
         id: string;
         username: string;
         discriminator: string;
-        avatar: string | null | undefined;
-        mfa_enabled?: true;
+        avatar?: string;
+        bot?: boolean;
+        system?: boolean;
+        mfa_enabled?: boolean;
         locale?: string;
-        verified?: boolean;
-        email?: string | null | undefined;
-        flags?: number;
-        premium_type?: number;
-        public_flags?: number;
+        verified?: boolean;	
+        email?: string;
+        flags?: integer;	
+        premium_type?: PremiumType;
+        public_flags?: integer;
     }
 
     export interface PartialGuild {
@@ -110,7 +113,7 @@ declare module 'oauth-discord' {
     }
 
     export interface Overwrite {
-        id: snowflake;
+        id: string;
         type: number;
         allow: string;
         deny: string;
@@ -145,7 +148,7 @@ declare module 'oauth-discord' {
 
     export interface ThreadMetadata {
         archived: boolean;
-        archiver_id?: snowflake;
+        archiver_id?: string;
         auto_archive_duration: number;
         archive_timestamp: string;
         locked?: boolean;
@@ -235,7 +238,7 @@ declare module 'oauth-discord' {
         emoji_id?: string;
         emoji_name?: string;
     }
-
+    
     export interface Guild {
         id: string;
         name: string
@@ -294,12 +297,25 @@ declare module 'oauth-discord' {
         public revokeToken(token: string): Promise<object>;
         public user(access_token: string): Promise<User>;
         public userGuilds(access_token: string): Promise<PartialGuild[]>;
-        public userGuild(access_token: string, guild_id: string): Promise<Guild>;
-        public userGuildChannels(access_token: string, guild_id: string): Promise<Channel>;
-        public searchGuildMember(access_token: string, guild_id: string, query: string, limit: number): Promise<GuildMember[]>;
 
         private _urlEncode(e: object): string;
     }
 
+    export interface BotOption {
+        version: string;
+        token: string;
+    };
+
+    export declare class Bot {
+        constructor(option: BotOption): void;
+
+        readonly private _token: string;
+        readonly private _version: string;
+
+        public guild(guild_id: string): Promise<Guild>;
+        public guildChannels(guild_id: string): Promise<Channel>;
+        public searchGuildMember(guild_id: string, query: string, limit: number): Promise<GuildMember[]>;
+    }
+    
     export = Oauth;
 }

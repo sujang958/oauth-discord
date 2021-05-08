@@ -313,9 +313,9 @@ declare module 'oauth-discord' {
         readonly private _version: string;
 
         public guild(guild_id: string): Promise<Guild>;
-        public guildChannels(guild_id: string): Promise<Channel>;
+        public guildChannels(guild_id: string): Promise<Channel[]>;
         public searchGuildMember(guild_id: string, query: string, limit: number): Promise<GuildMember[]>;
     }
-    
+
     export = Oauth;
 }

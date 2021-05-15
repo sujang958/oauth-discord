@@ -24,8 +24,8 @@ $ yarn add oauth-discord
 const DiscordOauth = require('oauth-discord');
 const oauth = new DiscordOauth({
     version: "v8(option)",
-    client_id: '12345667',
-    client_secret: 'shhhhhhhhh cret',
+    client_id: 'your client id',
+    client_secret: 'your client secret',
     redirect_uri: 'http://localhost:3000/callback',
 });
 

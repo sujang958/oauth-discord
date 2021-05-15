@@ -4,6 +4,8 @@ declare module 'oauth-discord' {
     export type ActivityType = 0 | 1 | 2 | 3 | 4 | 5;
     export type PremiumType = 0 | 1 | 2;
 
+    export interface EmptyResponse {}
+
     export interface OauthOption {
         version?: string;
         client_secret: string;
@@ -315,6 +317,8 @@ declare module 'oauth-discord' {
 
         public guild(guild_id: string): Promise<Guild>;
         public guildChannels(guild_id: string): Promise<Channel[]>;
-        public searchGuildMember(guild_id: string, query: string, limit: number): Promise<GuildMember[]>;
+        public searchGuildMember(guild_id: string, query: any, limit?: number): Promise<GuildMember[]>;
+        public kickGuildMember(guild_id: string, user_id: string): Promise<EmptyResponse>;
+        public banGuildMember(guild_id: string, user_id: string, reason?: string, delete_message_daya?: number): Promise<EmptyResponse>;
     }
 }

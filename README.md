@@ -1,4 +1,9 @@
 # oauth-discord
+![Generic badge](https://img.shields.io/npm/dw/oauth-discord)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/sujang958/oauth-discord)
+![npm](https://img.shields.io/npm/v/oauth-discord)
+![NPM](https://img.shields.io/npm/l/oauth-discord)
+![node-current](https://img.shields.io/node/v/oauth-discord)
 > simple discord oauth tool
 
 

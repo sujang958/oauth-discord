@@ -297,7 +297,7 @@ declare module 'oauth-discord' {
 
         public getToken(option: AccessTokenOption | RefreshTokenOption): Promise<Token>;
         public revokeToken(token: string): Promise<any>;
-        public kuser(access_token: string): Promise<User>;
+        public user(access_token: string): Promise<User>;
         public userGuilds(access_token: string): Promise<PartialGuild[]>;
 
         private _urlEncode(e: any): string;

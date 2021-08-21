@@ -1,4 +1,4 @@
-const request = require('./util/request.js');
+const request = require('./util/request.js')
 
 class Bot {
     /**
@@ -9,8 +9,8 @@ class Bot {
         token: undefined,
         version: undefined,
     }) {
-        this._token = option.token;
-        this._version = option.version || 'v8';
+        this._token = option.token
+        this._version = option.version || 'v8'
     }
     
     /**
@@ -23,8 +23,8 @@ class Bot {
         let res = await request('GET', `/${this._version}/guilds/${guild_id}`, {
             type: 'Bot',
             creds: this._token,
-        });
-        return res;
+        })
+        return res
     }
 
     /**
@@ -39,8 +39,8 @@ class Bot {
             creds: this._token,
         }, {
             'Content-Type': 'application/json',
-        });
-        return res;
+        })
+        return res
     }
 
     /**
@@ -52,8 +52,8 @@ class Bot {
      * @returns {Promise<object[]>}
      */
     async searchGuildMember(guild_id, query, limit=1) {
-        if (isNaN(limit)) throw new TypeError('limit can not be other type');
-        query = String(query);
+        if (isNaN(limit)) throw new TypeError('limit can not be other type')
+        query = String(query)
 
         let res = await request('GET',
             `/${this._version}/guilds/${guild_id}/members/search?query=${encodeURIComponent(query)}&limit=${limit}`,
@@ -62,8 +62,8 @@ class Bot {
                 creds: this._token,
             }, {
                 'Content-Type': 'application/json',
-            });
-        return res;
+            })
+        return res
     }
 
     /**
@@ -80,8 +80,8 @@ class Bot {
                 creds: this._token,
             }, {
                 'Content-Type': 'application/json',
-            });
-        return res;
+            })
+        return res
     }
 
     /**
@@ -94,11 +94,11 @@ class Bot {
      */
     async banGuildMember(guild_id, user_id, reason='kick', delete_message_days=0) {
         if (typeof delete_message_days !== 'number')
-            throw new TypeError('delete_message_days can not be other types');
+            throw new TypeError('delete_message_days can not be other types')
         if (isNaN(delete_message_days))
-            throw new TypeError('delete_message_days can not be other types');
+            throw new TypeError('delete_message_days can not be other types')
         if (Number(delete_message_days) < 0 || Number(delete_message_days) > 7)
-            throw new Error('delete_message_days can be 0~7, can not be other number');
+            throw new Error('delete_message_days can be 0~7, can not be other number')
 
         let res = await request('PUT',
             `/${this._version}/guilds/${guild_id}/bans/${user_id}`,
@@ -110,10 +110,10 @@ class Bot {
             }, JSON.stringify({
                 reason,
                 delete_message_days,
-            }));
-        return res;
+            }))
+        return res
     }
 
 }
 
-module.exports = Bot;
+module.exports = Bot

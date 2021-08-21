@@ -1,6 +1,5 @@
-const btoa = require('btoa');
-const request = require('./util/request.js');
-
+const btoa = require('btoa')
+const request = require('./util/request.js')
 
 class Oauth {
     constructor(option={
@@ -9,15 +8,15 @@ class Oauth {
         client_id: undefined,
         redirect_uri: undefined,
     }) {
-        this.version = option.version || 'v8';
-        this.client_id = option.client_id.toString();
-        this.client_secret = option.client_secret;
-        this.redirect_uri = option.redirect_uri;
+        this.version = option.version || 'v9'
+        this.client_id = option.client_id.toString()
+        this.client_secret = option.client_secret
+        this.redirect_uri = option.redirect_uri
     }
 
     /**
      * get Access token
-     * @example let token = await Oauth.getToken({
+     * @example const token = await Oauth.getToken({
      *   grant_type: 'authorization_code'
      *   code: 'ndvklet5qfgalw3rfafjaaae2';
      *   scope: ['identify'];
@@ -25,18 +24,18 @@ class Oauth {
      * @param {Object} option 
      */
     async getToken(option) {
-        option.redirect_uri = this.redirect_uri;
-        let body = this._urlEncode(option);
+        option.redirect_uri = this.redirect_uri
+        let body = this._urlEncode(option)
 
         let res = await request('POST', `/${this.version}/oauth2/token`, {
             type: 'Basic',
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
             'Content-Type': 'application/x-www-form-urlencoded',
-        }, body);
+        }, body)
 
-        res.scope = res.scope.split(' ');
-        return res;
+        res.scope = res.scope.split(' ')
+        return res
     }
 
     /**
@@ -50,8 +49,8 @@ class Oauth {
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
             'Content-Type': 'application/x-www-form-urlencoded',
-        }, `token=${token}`);
-        return res;
+        }, `token=${token}`)
+        return res
     }
 
     /**
@@ -65,8 +64,8 @@ class Oauth {
             creds: access_token,
         }, {
             'Content-Type': 'application/json',
-        });
-        return res;
+        })
+        return res
     }
 
     /**
@@ -78,12 +77,12 @@ class Oauth {
         let res = await request('GET', `/${this.version}/users/@me/guilds`, {
             type: 'Bearer',
             creds: access_token,
-        });
-        return res;
+        })
+        return res
     }
 
-    _urlEncode(e){let n='';for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1);}
+    _urlEncode(e){let n='';for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
 }
 
-module.exports = Oauth;
-module.exports.Bot = require('./bot');
+module.exports = Oauth
+module.exports.Bot = require('./bot')

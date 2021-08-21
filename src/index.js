@@ -1,6 +1,5 @@
 const btoa = require('btoa')
-const api = require('./util/api.js')
-const qs = require('qs')
+const request = require('./util/request.js')
 
 class Oauth {
     constructor(option={
@@ -24,14 +23,20 @@ class Oauth {
      * @param {Object} option 
      */
     async getToken(option) {
-        const res = await api.post(`/${this.version}/oauth2/token`, qs.stringify(option), {
+        option.redirect_uri = this.redirect_uri
+        const res = await request({
+            method: 'POST',
+            path: `/${this.version}/oauth2/token`,
+            auth: {
+                type: 'Basic',
+                creds: btoa(`${this.client_id}:${this.client_secret}`)
+            },
             headers: {
-                'Content-Type': 'x-www-form-urlencoded',
-                'Authorization': `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`
-            }
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: this._urlEncode(option)
         })
-        if (res.data.message)   throw new Error(res.data.message)
-        return res.data
+        return res
     }
 
     /**
@@ -40,14 +45,19 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async revokeToken(token) {
-        const res = await api.post(`/${this.version}/oauth2/token/revoke`, `token=${token}`, {
+        const res = await request({
+            method: 'POST',
+            path: `/${this.version}/oauth2/token/revoke`,
+            auth: {
+                type: 'Basic',
+                creds: btoa(`${this.client_id}:${this.client_secret}`)
+            },
             headers: {
-                'Content-Type': 'x-www-form-urlencoded',
-                'Authorization': `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`
-            }
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `token=${token}`
         })
-        if (res.data.message)   throw new Error(res.data.message)
-        return res.data
+        return res
     }
 
     /**
@@ -56,13 +66,15 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async user(access_token) {
-        const res = await api.get(`/${this.version}/users/@me`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
+        const res = await request({
+            method: 'GET',
+            path: `/${this.version}/users/@me`,
+            auth: {
+                type: 'Bearer',
+                creds: access_token
+            },
         })
-        if (res.data.message)   throw new Error(res.data.message)
-        return res.data
+        return res
     }
 
     /**
@@ -71,14 +83,18 @@ class Oauth {
      * @returns {Promise<array>}
      */
     async userGuilds(access_token) {
-        const res = await api.get(`/${this.version}/users/@me/guilds`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
+        const res = await request({
+            method: 'GET',
+            path: `/${this.version}/users/@me/guilds`,
+            auth: {
+                type: 'Bearer',
+                creds: access_token
             }
         })
-        if (res.data.message)   throw new Error(res.data.message)
-        return res.data
+        return res
     }
+
+    _urlEncode(e){let n='';for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
 }
 
 module.exports = Oauth

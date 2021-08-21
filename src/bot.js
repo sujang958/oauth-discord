@@ -20,9 +20,13 @@ class Bot {
      * @returns {Promise<object>}
      */
     async guild(guild_id) {
-        let res = await request('GET', `/${this._version}/guilds/${guild_id}`, {
-            type: 'Bot',
-            creds: this._token,
+        const res = await request({
+            method: 'GET',
+            path: `/${this._version}/guilds/${guild_id}`,
+            auth: {
+                type: 'Bot',
+                creds: this._token,
+            },
         })
         return res
     }
@@ -34,35 +38,34 @@ class Bot {
      * @returns {Promise<object[]>}
      */
     async guildChannels(guild_id) {
-        let res = await request('GET', `/${this._version}/guilds/${guild_id}/channels`, {
-            type: 'Bot',
-            creds: this._token,
-        }, {
-            'Content-Type': 'application/json',
+        const res = await request({
+            method: 'GET',
+            path: `/${this._version}/guilds/${guild_id}/channels`,
+            auth: {
+                type: 'Bot',
+                creds: this._token,
+            },
         })
         return res
     }
 
     /**
      * search guild member
-     * @param {string} access_token 
      * @param {string} guild_id 
-     * @param {any} query 
+     * @param {string} query 
      * @param {number} limit 
      * @returns {Promise<object[]>}
      */
     async searchGuildMember(guild_id, query, limit=1) {
-        if (isNaN(limit)) throw new TypeError('limit can not be other type')
-        query = String(query)
-
-        let res = await request('GET',
-            `/${this._version}/guilds/${guild_id}/members/search?query=${encodeURIComponent(query)}&limit=${limit}`,
-            {
+        if (isNaN(limit)) throw new TypeError('limit`s type is number, can`t be other types')
+        const res = await request({
+            method: 'GET',
+            path: `/${this._version}/guilds/${guild_id}/members/search?query=${encodeURIComponent(String(query))}&limit=${limit}`,
+            auth: {
                 type: 'Bot',
                 creds: this._token,
-            }, {
-                'Content-Type': 'application/json',
-            })
+            }
+        })
         return res
     }
 
@@ -70,17 +73,17 @@ class Bot {
      * Kick Guild member
      * @param {string} guild_id 
      * @param {string} user_id 
-     * @returns {object}
+     * @returns {Promise<object>}
      */
     async kickGuildMember(guild_id, user_id) {
-        let res = await request('DELETE',
-            `/${this._version}/guilds/${guild_id}/members/${user_id}`,
-            {
+        const res = await request({
+            method: 'DELETE',
+            path: `/${this._version}/guilds/${guild_id}/members/${user_id}`,
+            auth: {
                 type: 'Bot',
                 creds: this._token,
-            }, {
-                'Content-Type': 'application/json',
-            })
+            }
+        })
         return res
     }
 
@@ -90,27 +93,34 @@ class Bot {
      * @param {string} user_id 
      * @param {string} reason 
      * @param {number} delete_message_days 
-     * @returns {object}
+     * @returns {Promise<object>}
      */
-    async banGuildMember(guild_id, user_id, reason='kick', delete_message_days=0) {
-        if (typeof delete_message_days !== 'number')
-            throw new TypeError('delete_message_days can not be other types')
+    async banGuildMember({
+        guild_id,
+        user_id,
+        reason,
+        delete_message_days,
+    }) {
         if (isNaN(delete_message_days))
-            throw new TypeError('delete_message_days can not be other types')
+            throw new TypeError('delete_message_days`s type is Number, can`t be other types')
         if (Number(delete_message_days) < 0 || Number(delete_message_days) > 7)
-            throw new Error('delete_message_days can be 0~7, can not be other number')
+            throw new Error('delete_message_days`s range is 0~7')
 
-        let res = await request('PUT',
-            `/${this._version}/guilds/${guild_id}/bans/${user_id}`,
-            {
+        const res = await request({
+            method: 'PUT',
+            path: `/${this._version}/guilds/${guild_id}/bans/${user_id}`,
+            auth: {
                 type: 'Bot',
                 creds: this._token,
-            }, {
-                'Content-Type': 'application/json',
-            }, JSON.stringify({
-                reason,
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...(reason && { reason }),
                 delete_message_days,
-            }))
+            })
+        })
         return res
     }
 

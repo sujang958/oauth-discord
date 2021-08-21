@@ -29,12 +29,12 @@ const oauth = new DiscordOauth({
     redirect_uri: 'http://localhost:3000/callback',
 });
 
-// Code
+// Using oauth code to get access token
 oauth.getToken({
     grant_type: 'authorization_code',
     code: code,
 });
-// Refresh token
+// Using refresh token to get access token
 oauth.getToken({
     grant_type: 'refresh_token',
     refresh_token: refresh_token,

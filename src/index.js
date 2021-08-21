@@ -1,5 +1,6 @@
 const btoa = require('btoa')
-const request = require('./util/request.js')
+const api = require('./util/api.js')
+const qs = require('qs')
 
 class Oauth {
     constructor(option={
@@ -23,16 +24,14 @@ class Oauth {
      * @param {Object} option 
      */
     async getToken(option) {
-        const body = this._urlEncode(option)
-        const res = await request('POST', `/${this.version}/oauth2/token`, {
-            type: 'Basic',
-            creds: btoa(`${this.client_id}:${this.client_secret}`),
-        }, {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }, body)
-
-        res.scope = res.scope.split(' ')
-        return res
+        const res = await api.post(`/${this.version}/oauth2/token`, qs.stringify(option), {
+            headers: {
+                'Content-Type': 'x-www-form-urlencoded',
+                'Authorization': `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`
+            }
+        })
+        if (res.data.message)   throw new Error(res.data.message)
+        return res.data
     }
 
     /**
@@ -41,13 +40,14 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async revokeToken(token) {
-        const res = await request('POST', `/${this.version}/oauth2/token/revoke`, {
-            type: 'Basic',
-            creds: btoa(`${this.client_id}:${this.client_secret}`),
-        }, {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }, `token=${token}`)
-        return res
+        const res = await api.post(`/${this.version}/oauth2/token/revoke`, `token=${token}`, {
+            headers: {
+                'Content-Type': 'x-www-form-urlencoded',
+                'Authorization': `Basic ${btoa(`${this.client_id}:${this.client_secret}`)}`
+            }
+        })
+        if (res.data.message)   throw new Error(res.data.message)
+        return res.data
     }
 
     /**
@@ -56,13 +56,13 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async user(access_token) {
-        const res = await request('GET', `/${this.version}/users/@me`, {
-            type: 'Bearer',
-            creds: access_token,
-        }, {
-            'Content-Type': 'application/json',
+        const res = await api.get(`/${this.version}/users/@me`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
         })
-        return res
+        if (res.data.message)   throw new Error(res.data.message)
+        return res.data
     }
 
     /**
@@ -71,14 +71,14 @@ class Oauth {
      * @returns {Promise<array>}
      */
     async userGuilds(access_token) {
-        const res = await request('GET', `/${this.version}/users/@me/guilds`, {
-            type: 'Bearer',
-            creds: access_token,
+        const res = await api.get(`/${this.version}/users/@me/guilds`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
         })
-        return res
+        if (res.data.message)   throw new Error(res.data.message)
+        return res.data
     }
-
-    _urlEncode(e){let n='';for(let[o,t]of Object.entries(e))t&&(n+=`&${encodeURIComponent(o)}=${encodeURIComponent(t)}`);return n.substr(1)}
 }
 
 module.exports = Oauth

@@ -17,17 +17,14 @@ class Oauth {
     /**
      * get Access token
      * @example const token = await Oauth.getToken({
-     *   grant_type: 'authorization_code'
-     *   code: 'ndvklet5qfgalw3rfafjaaae2';
-     *   scope: ['identify'];
+     *   grant_type: 'authorization_code',
+     *   code: 'ndvklet5qfgalw3rfafjaaae2',
      * })
      * @param {Object} option 
      */
     async getToken(option) {
-        option.redirect_uri = this.redirect_uri
-        let body = this._urlEncode(option)
-
-        let res = await request('POST', `/${this.version}/oauth2/token`, {
+        const body = this._urlEncode(option)
+        const res = await request('POST', `/${this.version}/oauth2/token`, {
             type: 'Basic',
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
@@ -44,7 +41,7 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async revokeToken(token) {
-        let res = await request('POST', `/${this.version}/oauth2/token/revoke`, {
+        const res = await request('POST', `/${this.version}/oauth2/token/revoke`, {
             type: 'Basic',
             creds: btoa(`${this.client_id}:${this.client_secret}`),
         }, {
@@ -59,7 +56,7 @@ class Oauth {
      * @returns {Promise<object>}
      */
     async user(access_token) {
-        let res = await request('GET', `/${this.version}/users/@me`, {
+        const res = await request('GET', `/${this.version}/users/@me`, {
             type: 'Bearer',
             creds: access_token,
         }, {
@@ -74,7 +71,7 @@ class Oauth {
      * @returns {Promise<array>}
      */
     async userGuilds(access_token) {
-        let res = await request('GET', `/${this.version}/users/@me/guilds`, {
+        const res = await request('GET', `/${this.version}/users/@me/guilds`, {
             type: 'Bearer',
             creds: access_token,
         })

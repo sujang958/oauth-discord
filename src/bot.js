@@ -10,7 +10,7 @@ class Bot {
         version: undefined,
     }) {
         this._token = option.token
-        this._version = option.version || 'v8'
+        this._version = option.version || 'v9'
     }
     
     /**

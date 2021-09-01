@@ -1,5 +1,9 @@
-const btoa = require('btoa')
 const request = require('./util/request.js')
+
+const btoa = (str) => {
+    const buf = Buffer.from(str)
+    return buf.toString('base64')
+}
 
 class Oauth {
     constructor(option={

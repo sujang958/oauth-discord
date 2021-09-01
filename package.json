@@ -1,6 +1,6 @@
 {
   "name": "oauth-discord",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "simple discord oauth tool",
   "main": "./src/index.js",
   "types": "./typings/index.d.ts",
